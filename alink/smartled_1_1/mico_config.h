@@ -33,10 +33,12 @@
 
 #define APP_INFO   "MiCO BASIC Demo"
 
-#define FIRMWARE_REVISION   "MICO_BASIC_1_0"
+#define FIRMWARE_REVISION   "ALINK_1_1"
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
 #define PROTOCOL            "com.mxchip.basic"
+
+#define MICO_SN  "0000.0000.0006"
 
 /************************************************************************
  * Application thread stack size */
@@ -73,6 +75,4 @@
  * MiCO TCP server used for configuration and ota. */
 //#define MICO_CONFIG_SERVER_ENABLE 
 #define MICO_CONFIG_SERVER_PORT    8000
-
-#define MICO_SN  "0000.0000.0005"
 

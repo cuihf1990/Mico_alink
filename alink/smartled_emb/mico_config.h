@@ -34,7 +34,7 @@
 
 #define APP_INFO   "MiCO BASIC Demo"
 
-#define FIRMWARE_REVISION   "MICO_BASIC_1_0"
+#define FIRMWARE_REVISION   "ALINK_EMB"
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
 #define PROTOCOL            "com.mxchip.basic"
