@@ -37,8 +37,7 @@
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
 #define PROTOCOL            "com.mxchip.basic"
-
-#define MICO_SN  "0000.0000.0006"
+#define MICO_SN             "0000.0000.0007"
 
 /************************************************************************
  * Application thread stack size */
