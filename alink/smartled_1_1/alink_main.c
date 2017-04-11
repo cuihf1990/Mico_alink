@@ -89,11 +89,6 @@ static void alink_main( uint32_t arg )
     alink_sample_mutex = platform_mutex_init( );
     post_sem = platform_semaphore_init( );
 
-    product_set_name(product_dev_name);
-    product_set_model(product_model);
-    product_set_key(product_key);
-    product_set_secret(product_secret);
-
     memset( main_dev, 0, sizeof(struct device_info) );
     alink_fill_deviceinfo( main_dev );
 

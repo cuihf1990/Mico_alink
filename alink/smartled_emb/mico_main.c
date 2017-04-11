@@ -71,6 +71,13 @@ int application_start( void )
 
     alink_cli_user_commands_register( );
 
+    product_set_name(product_dev_name);
+    product_set_model(product_model);
+    product_set_key(product_key);
+    product_set_secret(product_secret);
+
+    start_aws_config_mode( );
+
     /* Wait for wlan connection*/
     mico_rtos_get_semaphore( &wait_sem, MICO_WAIT_FOREVER );
     app_log("wifi connected successful");

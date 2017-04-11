@@ -28,6 +28,7 @@
 #include "mico.h"
 #include "mico_app_define.h"
 #include "alink_device.h"
+#include "alink_aws.h"
 
 #define alink_main_log(format, ...)  custom_log("alink_main", format, ##__VA_ARGS__)
 
@@ -86,11 +87,6 @@ static void alink_main( uint32_t arg )
     alink_post_data_sem = platform_semaphore_init( );
 
     device_logged = 0;
-
-    product_set_name(product_dev_name);
-    product_set_model(product_model);
-    product_set_key(product_key);
-    product_set_secret(product_secret);
 
     alink_register_callback( ALINK_CLOUD_CONNECTED, &cloud_connected );
     alink_register_callback( ALINK_CLOUD_DISCONNECTED, &cloud_disconnected );
