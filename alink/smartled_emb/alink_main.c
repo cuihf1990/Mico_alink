@@ -87,6 +87,11 @@ static void alink_main( uint32_t arg )
 
     device_logged = 0;
 
+    product_set_name(product_dev_name);
+    product_set_model(product_model);
+    product_set_key(product_key);
+    product_set_secret(product_secret);
+
     alink_register_callback( ALINK_CLOUD_CONNECTED, &cloud_connected );
     alink_register_callback( ALINK_CLOUD_DISCONNECTED, &cloud_disconnected );
 
