@@ -1,6 +1,7 @@
 #include "mico.h"
 #include "mico_app_define.h"
 #include "alink_device.h"
+#include "alink_aws.h"
 
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
