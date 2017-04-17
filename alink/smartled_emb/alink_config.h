@@ -25,14 +25,16 @@
 #define product_key             "bIjq3G1NcgjSfF9uSeK2"
 #define product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
 #else
-#define product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED"
-#define product_key             "ljB6vqoLzmP8fGkE6pon"
-#define product_secret            "YJJZjytOCXDhtQqip4EjWbhR95zTgI92RVjzjyZF"
+#define product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST"
+#define product_key             "5gPFl8G4GyFZ1fPWk20m"
+#define product_secret          "ngthgTlZ65bX5LpViKIWNsDPhOf2As9ChnoL9gQb"
+//#define product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED"
+//#define product_key             "ljB6vqoLzmP8fGkE6pon"
+//#define product_secret            "YJJZjytOCXDhtQqip4EjWbhR95zTgI92RVjzjyZF"
 #endif
 #define product_debug_key       "dpZZEpm9eBfqzK7yVeLq"
 #define product_debug_secret    "THnfRRsU5vu6g6m9X6uFyAjUWflgZ0iyGjdEneKm"
 
-#define product_dev_sn          "6923450656860"
 #define product_dev_version     "1.3"
 #define product_dev_type        "LIGHT"
 #define product_dev_category    "LIVING"

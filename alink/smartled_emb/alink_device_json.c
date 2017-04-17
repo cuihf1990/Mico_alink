@@ -5,70 +5,71 @@
 
 #ifndef PASS_THROUGH
 
-#define PostDataFormat      "{\"OnOff_Power\":{\"value\":\"%d\"},\"Color_Temperature\":{\"value\":\"%d\"},\"Light_Brightness\":{\"value\":\"%d\"},\"TimeDelay_PowerOff\":{\"value\":\"%d\"},\"WorkMode_MasterLight\":{\"value\":\"%d\"}}"
-
+#define PostDataFormat      "{\"ErrorCode\":{\"value\":\"%d\"},\"Hue\":{\"value\":\"%d\"},\"Luminance\":{\"value\":\"%d\"},\"Switch\":{\"value\":\"%d\"},\"WorkMode\":{\"value\":\"%d\"}}"
 #define post_data_buffer_size    (512)
 static uint8_t post_data_buffer[post_data_buffer_size];
 
-/*do your job here*/
-static struct virtual_dev
-{
-    char power;
-    char temp_value;
-    char light_value;
-    char time_delay;
-    char work_mode;
-}virtual_device =
-{
-    0x01, 0x30, 0x50, 0, 0x01};
+enum {
+    ATTR_ERRORCODE_INDEX,
+    ATTR_HUE_INDEX,
+    ATTR_LUMINANCE_INDEX,
+    ATTR_SWITCH_INDEX,
+    ATTR_WORKMODE_INDEX,
+    ATTR_MAX_NUMS
+};
 
-char *device_attr[5] =
-{   "OnOff_Power", "Color_Temperature", "Light_Brightness",
-    "TimeDelay_PowerOff", "WorkMode_MasterLight"
+#define DEVICE_ATTRS_NUM   (ATTR_MAX_NUMS)
+
+int device_state[] = {0, 10, 50, 1, 2};/* default value */
+char *device_attr[] = {
+    "ErrorCode",
+    "Hue",
+    "Luminance",
+    "Switch",
+    "WorkMode",
+    NULL
 };
 
 static int execute_cmd( char *json_buffer )
 {
-    int attrLen = 0, valueLen = 0, value = 0, i = 0;
-    char *valueStr = NULL, *attrStr = NULL;
+    int attr_len = 0, value_len = 0, value = 0, i = 0;
+    char *value_str = NULL, *attr_str = NULL;
 
     json_log("set data: %s", json_buffer);
 
-    for ( i = 0; i < 5; i++ )
-    {
-        attrStr = json_get_value_by_name( json_buffer, strlen( json_buffer ),
-            device_attr[i], &attrLen, 0 );
-        valueStr = json_get_value_by_name( attrStr, attrLen, "value", &valueLen, 0 );
+    for (i = 0; device_attr[i]; i++) {
+        attr_str = json_get_value_by_name(json_buffer, strlen(json_buffer),
+                device_attr[i], &attr_len, NULL);
+        value_str = json_get_value_by_name(attr_str, attr_len,
+                "value", &value_len, NULL);
 
-        if ( valueStr && valueLen > 0 )
-        {
-            char lastChar = *(valueStr + valueLen);
-            *(valueStr + valueLen) = 0;
-            value = atoi( valueStr );
-            *(valueStr + valueLen) = lastChar;
-            switch ( i )
-            {
-                case 0:
-                virtual_device.power = value;
-                break;
-                case 1:
-                virtual_device.temp_value = value;
-                break;
-                case 2:
-                virtual_device.light_value = value;
-                break;
-                case 3:
-                virtual_device.time_delay = value;
-                break;
-                case 4:
-                virtual_device.work_mode = value;
-                break;
-                default:
-                break;
-            }
+        if (value_str && value_len > 0) {
+            char last_char = *(value_str+value_len);
+            *(value_str + value_len) = 0;
+            value = atoi(value_str);
+            *(value_str + value_len) = last_char;
+            device_state[i] = value;
         }
     }
+
     return 0;
+}
+
+/* activate sample */
+static char active_data_tx_buffer[128];
+static int errorcode = 0;
+#define ActivateDataFormat    "{\"ErrorCode\": { \"value\": \"%d\" }}"
+int activate_button_pressed( void )
+{
+    if( errorcode == 0 ){
+        errorcode = 1;
+    }else{
+        errorcode = 0;
+    }
+
+    sprintf(active_data_tx_buffer, ActivateDataFormat, errorcode);
+    json_log("send:%s", active_data_tx_buffer);
+    return alink_report(Method_PostData, (char *)active_data_tx_buffer);
 }
 
 int cloud_get_device_json_data( char *json_buffer )
@@ -93,11 +94,11 @@ void alink_device_post_json_data( void )
 {
     /* sample for json data device */
     snprintf( (char *) post_data_buffer, post_data_buffer_size, PostDataFormat,
-        virtual_device.power,
-        virtual_device.temp_value,
-        virtual_device.light_value,
-        virtual_device.time_delay,
-        virtual_device.work_mode );
+              device_state[ATTR_ERRORCODE_INDEX],
+              device_state[ATTR_HUE_INDEX],
+              device_state[ATTR_LUMINANCE_INDEX],
+              device_state[ATTR_SWITCH_INDEX],
+              device_state[ATTR_WORKMODE_INDEX] );
 
     alink_report( Method_PostData, (const char *) post_data_buffer );
 }

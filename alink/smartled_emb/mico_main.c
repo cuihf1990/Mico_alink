@@ -77,6 +77,10 @@ int application_start( void )
     product_set_key(product_key);
     product_set_secret(product_secret);
 
+#ifdef PASS_THROUGH
+    alink_use_easylink_config( );
+#endif
+
     start_aws_config_mode( );
 
     /* Wait for wlan connection*/
