@@ -12,7 +12,7 @@
  *
  * undefine RAW_DATA_DEVICE, sample will post json string to cloud
  */
-#define PASS_THROUGH
+//#define PASS_THROUGH
 
 #define Method_PostData    "postDeviceData"
 #define Method_PostRawData "postDeviceRawData"
