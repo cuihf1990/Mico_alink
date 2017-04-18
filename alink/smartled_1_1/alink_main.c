@@ -48,15 +48,16 @@ int alink_handler_systemstates_callback( void *dev_mac, void *sys_state )
         case ALINK_STATUS_INITED:
             break;
         case ALINK_STATUS_REGISTERED:
-            sprintf( uuid, "%s", alink_get_uuid( NULL ) );
-            alink_main_log("ALINK_STATUS_REGISTERED, mac %s uuid %s \n", mac,
-                uuid);
+            alink_main_log("ALINK_STATUS_REGISTERED");
             break;
         case ALINK_STATUS_LOGGED:
             sprintf( uuid, "%s", alink_get_uuid( NULL ) );
             alink_main_log("ALINK_STATUS_LOGGED, mac %s uuid %s\n", mac, uuid);
             device_logged = 1;
             break;
+        case ALINK_STATUS_LINK_DOWN:
+            alink_main_log("ALINK_STATUS_LINK_DOWN");
+            device_logged = 0;
         default:
             break;
     }
@@ -92,8 +93,8 @@ static void alink_main( uint32_t arg )
     memset( main_dev, 0, sizeof(struct device_info) );
     alink_fill_deviceinfo( main_dev );
 
-    alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
-//    alink_set_loglevel(ALINK_LL_NONE);
+//    alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
+    alink_set_loglevel(ALINK_LL_NONE);
 
     main_dev->sys_callback[ALINK_FUNC_SERVER_STATUS] = alink_handler_systemstates_callback;
 
