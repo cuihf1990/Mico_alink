@@ -37,7 +37,7 @@
 #define MANUFACTURER        "MXCHIP Inc."
 #define SERIAL_NUMBER       "20140606"
 #define PROTOCOL            "com.mxchip.basic"
-#define MICO_SN             "0000.0000.0009"
+#define MICO_SN             "0000.0000.000A"
 
 #define MICO_WLAN_CONFIG_MODE_TRIGGER           (1) /**< Enter wlan config mode if no available wlan. */
 #define CONFIG_MODE_TRIGGER_EASYLINK_BTN        (1) /**< Enter wlan config mode by Easylink button. */
