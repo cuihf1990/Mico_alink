@@ -52,6 +52,8 @@
 
 #define MICO_WLAN_CONFIG_MODE CONFIG_MODE_USER
 
+#define EasyLink_Needs_Reboot
+
 #define EasyLink_TimeOut                60000 /**< EasyLink timeout 60 seconds. */
 
 #define EasyLink_ConnectWlan_Timeout    30000 /**< Connect to wlan after configured by easylink.
