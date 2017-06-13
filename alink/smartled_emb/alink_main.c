@@ -33,15 +33,8 @@
 #define alink_main_log(format, ...)  custom_log("alink_main", format, ##__VA_ARGS__)
 
 static void* alink_post_data_sem = NULL;
-static int device_logged = 0;
 static void *alink_device_state_mutex;
 static int device_status_change = 1;
-
-void alink_device_reset( void )
-{
-    if ( device_logged )
-        alink_factory_reset( );
-}
 
 int get_device_state( )
 {
@@ -69,13 +62,11 @@ int set_device_state( int state )
 void cloud_connected( void )
 {
     alink_main_log("alink cloud connected!\n");
-    device_logged = 1;
 }
 
 void cloud_disconnected( void )
 {
     alink_main_log("alink cloud disconnected!\n");
-    device_logged = 0;
 }
 
 static void alink_main( uint32_t arg )
@@ -85,8 +76,6 @@ static void alink_main( uint32_t arg )
 
     alink_device_state_mutex = platform_mutex_init( );
     alink_post_data_sem = platform_semaphore_init( );
-
-    device_logged = 0;
 
     alink_register_callback( ALINK_CLOUD_CONNECTED, &cloud_connected );
     alink_register_callback( ALINK_CLOUD_DISCONNECTED, &cloud_disconnected );

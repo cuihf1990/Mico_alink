@@ -10,8 +10,6 @@
 
 OSStatus start_alink_emb( void );
 
-void alink_device_reset( void );
-
 int get_device_state( void );
 
 int set_device_state( int state );

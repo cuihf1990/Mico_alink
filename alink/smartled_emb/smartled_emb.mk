@@ -26,5 +26,8 @@ $(NAME)_SOURCES := alink_main.c mico_main.c alink_device_raw.c alink_device_json
 				   
 $(NAME)_COMPONENTS := lib_alink/alink_emb
 
+#GLOBAL_DEFINES += ALINK_USE_SDS
 
-
+ifneq (,$(filter ALINK_USE_SDS,$(GLOBAL_DEFINES)))
+ALINK_USE_SDS_CONFIG := 1
+endif

@@ -14,7 +14,6 @@ extern void alink_cli_user_commands_register( void );
 void appRestoreDefault_callback( void * const user_config_data, uint32_t size )
 {
     memset( user_config_data, 0x0, size );
-    alink_device_reset( );
 }
 
 static void micoNotify_WifiStatusHandler( WiFiEvent status, void* const inContext )
