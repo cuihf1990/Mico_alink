@@ -139,7 +139,7 @@ static void alink_main( uint32_t arg )
 
 ### 2.4 alink_emb
 
-* 支持零配功能( 零配功能请参考 [zero config](#25-zero_config) );
+* 支持零配功能( 零配功能请参考 [zero config](#26-zero_config) );
 
 #### 2.4.1 代码注释
 
@@ -217,7 +217,7 @@ static void alink_main( uint32_t arg )
 
 ### 2.5 alink_sds
 * SDS 功能说明：
-给每一台设备增加一个device_secret和device_key信息。支持零配功能（ 零配功能请参考 [zero config](#25-zero_config) ）。其他接口与alink_emb一致。
+给每一台设备增加一个device_secret和device_key信息。支持零配功能（ 零配功能请参考 [zero config](#26-zero_config) ）。其他接口与alink_emb一致。
 
 * 需要在MK文件中定义 ```GLOBAL_DEFINES += ALINK_USE_SDS ```
 
