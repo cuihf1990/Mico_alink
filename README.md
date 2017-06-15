@@ -9,12 +9,13 @@
 
 * 1.[准备工作](#1.准备工作)
 * 2.[Demo_使用](#2.Demo_使用)
-    2.1 [导入 mico 工程](#21-导入-mico-工程)
-	2.2 [修改配置文件参数](#22-修改配置文件参数)
-    2.3 [alink1.1](#23-alink1_1)
-	2.4 [alink_emb](#24-alink_emb)
-    2.5 [alink_sds](#25-alink_sds)
-    2.6 [zero config](#26-zero-config)
+
+   * 2.1 [导入 mico 工程](#21-导入mico工程)
+   * 2.2 [修改配置文件参数](#22-修改配置文件参数)
+   * 2.3 [alink1.1](#23-alink1_1)
+   * 2.4 [alink_emb](#24-alink_emb)
+   * 2.5 [alink_sds](#25-alink_sds)
+   * 2.6 [zero config](#26-zero_config)
 	
 * 3.[运行结果](#3.运行结果)
 
@@ -26,7 +27,7 @@
 
 
 ## 2.Demo 使用
-### 2.1 导入 MiCO 工程
+### 2.1 导入MiCO工程
 
 1. 使用micocube 导入工程。在命令行输入以下指令:`mico import https://code.aliyun.com/MXCHIP_FAE/alink.git`
 
@@ -138,7 +139,7 @@ static void alink_main( uint32_t arg )
 
 ### 2.4 alink_emb
 
-* 支持零配功能( 零配功能请参考 [zero config](#25-zero-config) );
+* 支持零配功能( 零配功能请参考 [zero config](#25-zero_config) );
 
 #### 2.4.1 代码注释
 
@@ -216,7 +217,7 @@ static void alink_main( uint32_t arg )
 
 ### 2.5 alink_sds
 * SDS 功能说明：
-给每一台设备增加一个device_secret和device_key信息。支持零配功能（ 零配功能请参考 [zero config](#25-zero-config) ）。其他接口与alink_emb一致。
+给每一台设备增加一个device_secret和device_key信息。支持零配功能（ 零配功能请参考 [zero config](#25-zero_config) ）。其他接口与alink_emb一致。
 
 * 需要在MK文件中定义 ```GLOBAL_DEFINES += ALINK_USE_SDS ```
 
