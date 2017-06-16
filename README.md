@@ -34,6 +34,35 @@
 ### 2.2 修改代码
 1. 修改配置文件 alink_config.h 根据TRD文件修改 product_model，product_key，product_secret等参数。如果使用透传方式上传数据，请务必打开宏 #define PASS_THROUGH 。
 
+```
+//根据阿里后台提供的TRD文档填写以下参数
+//TODO: update these product info
+#define product_dev_name        "alink_product"
+
+#ifdef PASS_THROUGH
+#define product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED_LUA"
+#define product_key             "bIjq3G1NcgjSfF9uSeK2"
+#define product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
+#else
+#define product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST"
+#define product_key             "5gPFl8G4GyFZ1fPWk20m"
+#define product_secret          "ngthgTlZ65bX5LpViKIWNsDPhOf2As9ChnoL9gQb"
+
+#endif
+//沙箱环境下的key 和 secret
+#define product_debug_key       "dpZZEpm9eBfqzK7yVeLq"
+#define product_debug_secret    "THnfRRsU5vu6g6m9X6uFyAjUWflgZ0iyGjdEneKm"
+
+//固件版本号，用于OTA升级以及版本确认
+#define product_dev_version     "1.3"
+#define product_dev_type        "LIGHT"
+#define product_dev_category    "LIVING"
+#define product_dev_manufacturer "ALINKTEST"
+#define product_dev_cid         "2D0044000F47333139373038"
+
+
+
+```
 
 ### 2.3 alink1_1
 
