@@ -80,7 +80,7 @@ void alink_fill_deviceinfo( struct device_info *deviceinfo )
     platform_wifi_get_mac( deviceinfo->mac );
     product_get_cid( deviceinfo->cid );
     alink_main_log("DEV_MODEL:%s", deviceinfo->model);
-    alink_main_log("PRODUCT DEVICE VERSION:%s\n", product_dev_version);
+    alink_main_log("PRODUCT DEVICE VERSION:%s\n", alink_product_dev_version);
 }
 
 static void alink_main( uint32_t arg )
@@ -93,8 +93,8 @@ static void alink_main( uint32_t arg )
     memset( main_dev, 0, sizeof(struct device_info) );
     alink_fill_deviceinfo( main_dev );
 
-//    alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
-    alink_set_loglevel(ALINK_LL_NONE);
+    alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
+//    alink_set_loglevel(ALINK_LL_NONE);
 
     main_dev->sys_callback[ALINK_FUNC_SERVER_STATUS] = alink_handler_systemstates_callback;
 

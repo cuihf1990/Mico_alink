@@ -72,7 +72,8 @@ void cloud_disconnected( void )
 static void alink_main( uint32_t arg )
 {
 
-    alink_set_loglevel( ALINK_LL_TRACE );
+    alink_set_loglevel( ALINK_LL_DEBUG );
+//    alink_set_loglevel( ALINK_LL_NONE );
 
     alink_device_state_mutex = platform_mutex_init( );
     alink_post_data_sem = platform_semaphore_init( );

@@ -19,32 +19,21 @@
 #define Method_GetAlinkTime "getAlinkTime"
 
 //TODO: update these product info
-#define product_dev_name        "alink_product"
+#define alink_product_dev_name        "alink_product"
 #ifdef PASS_THROUGH
-#define product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED_LUA"
-#define product_key             "bIjq3G1NcgjSfF9uSeK2"
-#define product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
+#define alink_product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED_LUA"
+#define alink_product_key             "bIjq3G1NcgjSfF9uSeK2"
+#define alink_product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
 #else
-#define product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST"
-#define product_key             "5gPFl8G4GyFZ1fPWk20m"
-#define product_secret          "ngthgTlZ65bX5LpViKIWNsDPhOf2As9ChnoL9gQb"
-//#define product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED"
-//#define product_key             "ljB6vqoLzmP8fGkE6pon"
-//#define product_secret            "YJJZjytOCXDhtQqip4EjWbhR95zTgI92RVjzjyZF"
+#define alink_product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST"
+#define alink_product_key             "5gPFl8G4GyFZ1fPWk20m"
+#define alink_product_secret          "ngthgTlZ65bX5LpViKIWNsDPhOf2As9ChnoL9gQb"
 #endif
-#define product_debug_key       "dpZZEpm9eBfqzK7yVeLq"
-#define product_debug_secret    "THnfRRsU5vu6g6m9X6uFyAjUWflgZ0iyGjdEneKm"
 
-#define product_dev_version     "1.3"
-#define product_dev_type        "LIGHT"
-#define product_dev_category    "LIVING"
-#define product_dev_manufacturer "ALINKTEST"
-#define product_dev_cid         "2D0044000F47333139373038"
-
-/* device info */
-#define product_dev_ DEV_CATEGORY "LIVING"
-#define DEV_TYPE "LIGHT"
-#define DEV_MANUFACTURE "ALINKTEST"
+#define alink_product_dev_version     "1.3"
+#define alink_product_dev_type        "LIGHT"
+#define alink_product_dev_category    "LIVING"
+#define alink_product_dev_manufacturer "ALINKTEST"
 
 typedef struct _alink_config_t
 {

@@ -61,15 +61,17 @@ static int errorcode = 0;
 #define ActivateDataFormat    "{\"ErrorCode\": { \"value\": \"%d\" }}"
 int activate_button_pressed( void )
 {
-    if( errorcode == 0 ){
-        errorcode = 1;
-    }else{
-        errorcode = 0;
-    }
-
+    errorcode = 1;
     sprintf(active_data_tx_buffer, ActivateDataFormat, errorcode);
     json_log("send:%s", active_data_tx_buffer);
-    return alink_report(Method_PostData, (char *)active_data_tx_buffer);
+    alink_report(Method_PostData, (char *)active_data_tx_buffer);
+
+    errorcode = 0;
+    sprintf(active_data_tx_buffer, ActivateDataFormat, errorcode);
+    json_log("send:%s", active_data_tx_buffer);
+    alink_report(Method_PostData, (char *)active_data_tx_buffer);
+
+    return 0;
 }
 
 int cloud_get_device_json_data( char *json_buffer )

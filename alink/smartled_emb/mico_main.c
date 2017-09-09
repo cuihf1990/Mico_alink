@@ -16,6 +16,22 @@ void appRestoreDefault_callback( void * const user_config_data, uint32_t size )
     memset( user_config_data, 0x0, size );
 }
 
+void app_alink_config_read( char *buffer, int length )
+{
+    app_log("alink config read");
+    application_config_t *application_config = mico_system_context_get_user_data( mico_system_context_get( ) );
+    memcpy( buffer, application_config->alink_config.alink_config_data, length );
+}
+
+void app_alink_config_write( char *buffer, int length )
+{
+    app_log("alink config write");
+    application_config_t *application_config = mico_system_context_get_user_data( mico_system_context_get( ) );
+
+    memcpy( application_config->alink_config.alink_config_data, buffer, length );
+    mico_system_context_update( mico_system_context_get( ) );
+}
+
 static void micoNotify_WifiStatusHandler( WiFiEvent status, void* const inContext )
 {
     switch ( status )
@@ -32,10 +48,10 @@ static void micoNotify_WifiStatusHandler( WiFiEvent status, void* const inContex
     }
 }
 
-//static void ssl_log( const int logLevel, const char * const logMessage )
-//{
-//    app_log("%s", logMessage);
-//}
+void ssl_log( const int logLevel, const char * const logMessage )
+{
+    app_log("%s", logMessage);
+}
 
 int application_start( void )
 {
@@ -43,7 +59,8 @@ int application_start( void )
     OSStatus err = kNoErr;
     mico_Context_t* mico_context;
     app_context_t* app_context;
-    char version[30];
+    alink_product_t product_info;
+    alink_product_dev_t product_dev_info;
 
     /* Create application context */
     app_context = (app_context_t *) calloc( 1, sizeof(app_context_t) );
@@ -65,16 +82,23 @@ int application_start( void )
     err = mico_system_init( mico_context );
     require_noerr( err, exit );
 
-    alink_get_firmware_version( version );
-    app_log("firmware version: %s", version);
-    app_log("product model: %s", product_model);
+    app_log("product model: %s", alink_product_model);
 
     alink_cli_user_commands_register( );
 
-    product_set_name(product_dev_name);
-    product_set_model(product_model);
-    product_set_key(product_key);
-    product_set_secret(product_secret);
+    alink_platform_config_func_set( &app_alink_config_read, &app_alink_config_write );
+
+    strcpy( product_info.product_name, alink_product_dev_name );
+    strcpy( product_info.product_model, alink_product_model );
+    strcpy( product_info.product_key, alink_product_key );
+    strcpy( product_info.product_secret, alink_product_secret );
+    alink_product_info( &product_info );
+
+    strcpy( product_dev_info.product_dev_version, alink_product_dev_version );
+    strcpy( product_dev_info.product_dev_type, alink_product_dev_type );
+    strcpy( product_dev_info.product_dev_category, alink_product_dev_category );
+    strcpy( product_dev_info.product_dev_manufacturer, alink_product_dev_manufacturer );
+    alink_product_dev_info( &product_dev_info  );
 
 #ifdef PASS_THROUGH
     alink_use_easylink_config( );
