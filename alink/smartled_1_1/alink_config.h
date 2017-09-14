@@ -19,7 +19,7 @@
 #define alink_product_secret            "YJJZjytOCXDhtQqip4EjWbhR95zTgI92RVjzjyZF"
 #endif
 
-#define alink_product_dev_version     "1.0.7"
+#define alink_product_dev_version     "1.1.3"
 #define alink_product_dev_type        "LIGHT"
 #define alink_product_dev_category    "LIVING"
 #define alink_product_dev_manufacturer "ALINKTEST"
