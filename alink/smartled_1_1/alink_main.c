@@ -8,12 +8,6 @@ static char device_status_change = 1;
 static int device_logged = 0;
 static void* post_sem = NULL;
 
-void alink_device_reset( void )
-{
-    if ( device_logged )
-        alink_factory_reset( );
-}
-
 int get_device_state( void )
 {
     int ret = 0;
