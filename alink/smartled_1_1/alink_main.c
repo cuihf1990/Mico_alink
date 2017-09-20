@@ -1,5 +1,6 @@
 #include "MICO.h"
 #include "alink_device.h"
+#include "mico_app_define.h"
 
 #define alink_main_log(M, ...) custom_log("alink_main", M, ##__VA_ARGS__)
 
@@ -48,6 +49,7 @@ int alink_handler_systemstates_callback( void *dev_mac, void *sys_state )
             sprintf( uuid, "%s", alink_get_uuid( NULL ) );
             alink_main_log("ALINK_STATUS_LOGGED, mac %s uuid %s\n", mac, uuid);
             device_logged = 1;
+            set_device_state( 1 );
             break;
         case ALINK_STATUS_LINK_DOWN:
             alink_main_log("ALINK_STATUS_LINK_DOWN");
@@ -83,6 +85,8 @@ static void alink_main( uint32_t arg )
     main_dev = platform_malloc( sizeof(struct device_info) );
     alink_sample_mutex = platform_mutex_init( );
     post_sem = platform_semaphore_init( );
+    application_config_t *application_config = mico_system_context_get_user_data( mico_system_context_get( ) );
+
 
     memset( main_dev, 0, sizeof(struct device_info) );
     alink_fill_deviceinfo( main_dev );
@@ -114,6 +118,14 @@ static void alink_main( uint32_t arg )
         if ( get_device_state( ) )
         {
             alink_main_log("device status changed, free memory %d", MicoGetMemoryInfo()->free_memory);
+
+            if( application_config->alink_config.is_unbind == true )
+            {
+                application_config->alink_config.is_unbind = false;
+                mico_system_context_update( mico_system_context_get( ) );
+                alink_factory_reset( );
+            }
+
 #ifdef PASS_THROUGH
             alink_device_post_raw_data( );
 #else

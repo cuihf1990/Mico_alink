@@ -27,4 +27,5 @@
 typedef struct _alink_config_t
 {
     uint8_t alink_config_data[2048];
+    bool is_unbind;
 } alink_config_t;

@@ -17,7 +17,17 @@ static void aws_mode( char *pcWriteBuffer, int xWriteBufferLen, int argc, char *
 
 static void alink_reset( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
 {
-    alink_factory_reset( );
+    int res = 0;
+    application_config_t *application_config = mico_system_context_get_user_data( mico_system_context_get( ) );
+
+    res = alink_factory_reset( );
+    if( res != 0 )
+    {
+        application_config->alink_config.is_unbind = true;
+    }else{
+        application_config->alink_config.is_unbind = false;
+    }
+    mico_system_context_update( mico_system_context_get( ) );
 }
 
 static const struct cli_command app_clis[] = {
