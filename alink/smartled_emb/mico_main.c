@@ -6,15 +6,41 @@
 #define app_log(M, ...) custom_log("APP", M, ##__VA_ARGS__)
 #define app_log_trace() custom_log_trace("APP")
 
+extern void PlatformEasyLinkButtonClickedCallback( void );
 static mico_semaphore_t wait_sem = NULL;
 
-extern void alink_cli_user_commands_register( void );
+extern int activate_button_pressed( void );
 
 /* MICO system callback: Restore default configuration provided by application */
 void appRestoreDefault_callback( void * const user_config_data, uint32_t size )
 {
-    memset( user_config_data, 0x0, size );
+
 }
+
+static void aws_mode( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
+{
+    PlatformEasyLinkButtonClickedCallback( );
+    app_log("enter aws config mode...");
+}
+
+static void aws_activate( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
+{
+#ifndef PASS_THROUGH
+    activate_button_pressed( );
+    app_log("awss v3 activate...");
+#endif
+}
+
+static void alink_reset( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
+{
+    alink_factory_reset( );
+}
+
+static const struct cli_command user_clis[] = {
+    { "aws", "enter aws config mode", aws_mode },
+    { "activate", "awss v3 need activate", aws_activate},
+    { "reset", "support off-line reset", alink_reset},
+};
 
 void app_alink_config_read( char *buffer, int length )
 {
@@ -84,7 +110,7 @@ int application_start( void )
 
     app_log("product model: %s", alink_product_model);
 
-    alink_cli_user_commands_register( );
+    cli_register_commands( user_clis, sizeof(user_clis) / sizeof(struct cli_command) );
 
     alink_platform_config_func_set( &app_alink_config_read, &app_alink_config_write );
 
