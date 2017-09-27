@@ -19,12 +19,20 @@
 #define Method_GetAlinkTime "getAlinkTime"
 
 //TODO: update these product info
-#define alink_product_dev_name        "alink_product"
+
 #ifdef PASS_THROUGH
-#define alink_product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED_LUA"
-#define alink_product_key             "bIjq3G1NcgjSfF9uSeK2"
-#define alink_product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
+/*  使用easylink 配网测试 model
+ * #define alink_product_dev_name        "alink_product"
+ * #define alink_product_model         "ALINKTEST_LIVING_LIGHT_SMARTLED_LUA"
+ * #define alink_product_key             "bIjq3G1NcgjSfF9uSeK2"
+ * #define alink_product_secret            "W6tXrtzgQHGZqksvJLMdCPArmkecBAdcr2F5tjuF"
+ */
+#define alink_product_dev_name        "ALINK_TEST_LUA"
+#define alink_product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST_LUA"
+#define alink_product_key             "PpvWt4yEJhWW9f987meF"
+#define alink_product_secret          "c2IGOfujoX7JrbixF1yHNf4tcD8J2rAOIv7AszV8"
 #else
+#define alink_product_dev_name        "alink_product"
 #define alink_product_model           "ALINKTEST_LIVING_LIGHT_ALINK_TEST"
 #define alink_product_key             "5gPFl8G4GyFZ1fPWk20m"
 #define alink_product_secret          "ngthgTlZ65bX5LpViKIWNsDPhOf2As9ChnoL9gQb"

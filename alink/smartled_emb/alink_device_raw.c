@@ -5,6 +5,9 @@
 
 #ifdef PASS_THROUGH
 
+#define RawDataHeader   "{\"rawData\":\""
+#define RawDataTail     "\", \"length\":\"%d\"}"
+
 #define post_data_buffer_size    (512)
 static uint8_t raw_data_buffer[post_data_buffer_size];
 /* rawdata byte order
@@ -133,13 +136,53 @@ int cloud_set_device_raw_data( char *json_buffer )
     return ret;
 }
 
+/* activate sample */
+int activate_button_pressed( void )
+{
+    int i, size;
+    int len = RAW_DATA_SIZE;
+
+    uint8_t device_state_raw_data1[RAW_DATA_SIZE] = {
+        0xaa, 0x07, 0, 8, 10, 50, 10, 0x55
+    };
+    uint8_t device_state_raw_data2[RAW_DATA_SIZE] = {
+        0xaa, 0x07, 1, 8, 10, 50, 10, 0x55
+    };
+
+    size = strlen( RawDataHeader );
+    strncpy( (char *) raw_data_buffer, RawDataHeader, post_data_buffer_size );
+    for ( i = 0; i < len; i++ )
+    {
+        size += snprintf( (char *) raw_data_buffer + size,
+        post_data_buffer_size - size,
+                          "%02X", device_state_raw_data1[i] );
+    }
+    size += snprintf( (char *) raw_data_buffer + size,
+    post_data_buffer_size - size,
+                      RawDataTail, len * 2 );
+    alink_report( Method_PostRawData, (char *) raw_data_buffer );
+
+    size = strlen( RawDataHeader );
+    strncpy( (char *) raw_data_buffer, RawDataHeader, post_data_buffer_size );
+    for ( i = 0; i < len; i++ )
+    {
+        size += snprintf( (char *) raw_data_buffer + size,
+        post_data_buffer_size - size,
+                          "%02X", device_state_raw_data2[i] );
+    }
+    size += snprintf( (char *) raw_data_buffer + size,
+    post_data_buffer_size - size,
+                      RawDataTail, len * 2 );
+    alink_report( Method_PostRawData, (char *) raw_data_buffer );
+
+    return 0;
+}
+
 int alink_device_post_raw_data( void )
 {
 
     int i, size;
     int len = RAW_DATA_SIZE;
-#define RawDataHeader   "{\"rawData\":\""
-#define RawDataTail     "\", \"length\":\"%d\"}"
 
     size = strlen( RawDataHeader );
     strncpy( (char *) raw_data_buffer, RawDataHeader, post_data_buffer_size );

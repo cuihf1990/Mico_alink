@@ -25,10 +25,8 @@ static void aws_mode( char *pcWriteBuffer, int xWriteBufferLen, int argc, char *
 
 static void aws_activate( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
 {
-#ifndef PASS_THROUGH
     activate_button_pressed( );
     app_log("awss v3 activate...");
-#endif
 }
 
 static void alink_reset( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
