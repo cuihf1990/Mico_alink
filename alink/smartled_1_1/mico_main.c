@@ -10,6 +10,9 @@ static mico_semaphore_t wait_sem = NULL;
 
 extern void alink_cli_user_commands_register( void );
 
+extern int cloud_connect_status;
+extern uint8_t wifi_status_return[12];
+
 static void aws_mode( char *pcWriteBuffer, int xWriteBufferLen, int argc, char **argv )
 {
     PlatformEasyLinkButtonClickedCallback( );
@@ -56,13 +59,19 @@ static void micoNotify_WifiStatusHandler( WiFiEvent status, void* const inContex
     switch ( status )
     {
         case NOTIFY_STATION_UP:
+            wifi_status_return[10] = cloud_connect_status = 2;
+             wifi_status_return[11] = (0x100-(sum(wifi_status_return)&0xff));
+             MicoUartSend(UART_FOR_APP, wifi_status_return, 12);
             if( wait_sem != NULL ){
                 mico_rtos_set_semaphore( &wait_sem );
             }
             break;
         case NOTIFY_STATION_DOWN:
-            case NOTIFY_AP_UP:
-            case NOTIFY_AP_DOWN:
+            wifi_status_return[10] = cloud_connect_status = 1;
+            wifi_status_return[11] = (0x100-(sum(wifi_status_return)&0xff));
+            MicoUartSend(UART_FOR_APP, wifi_status_return, 12);
+        case NOTIFY_AP_UP:
+        case NOTIFY_AP_DOWN:
             break;
     }
 }
@@ -92,6 +101,9 @@ int application_start( void )
                                        (void *) micoNotify_WifiStatusHandler,
                                        NULL );
     require_noerr( err, exit );
+
+
+    Uart_Init();
 
     /* Create mico system context and read application's config data from flash */
     mico_context = mico_system_context_init( sizeof(application_config_t) );

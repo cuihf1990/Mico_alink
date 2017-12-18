@@ -1,5 +1,6 @@
 #include "mico.h"
 #include "alink_device.h"
+#include "Post_Process.h"
 
 #define json_log(M, ...) custom_log("", M, ##__VA_ARGS__)
 
@@ -8,35 +9,54 @@
 static uint8_t post_data_buffer[post_data_buffer_size];
 
 /*do your job here*/
-static struct virtual_dev
-{
-    char power;
-    char temp_value;
-    char light_value;
-    char time_delay;
-    char work_mode;
-}virtual_device =
-{
-    0x01, 0x30, 0x50, 0, 0x01};
+extern uart_cmd_t uartcmd;
 
-char *device_attr[5] =
-{   "OnOff_Power", "Color_Temperature", "Light_Brightness",
-    "TimeDelay_PowerOff", "WorkMode_MasterLight"
-};
-
-const char *main_dev_params =
-"{\"OnOff_Power\": { \"value\": \"%d\" }, \"Color_Temperature\": { \"value\": \"%d\" }, \"Light_Brightness\": { \"value\": \"%d\" }, \"TimeDelay_PowerOff\": { \"value\": \"%d\"}, \"WorkMode_MasterLight\": { \"value\": \"%d\"}}";
+char* post_str_format = "{"\
+" \"Switch\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"ErrorCode\": {"\
+" \"value\": \"%d\" "\
+" },"\
+" \"ChildLock\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"CueTone\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"UILight\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"Hepa\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"FilterLife1\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"Countdown\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"WindSpeed\": {"\
+" \"value\": \"%d\""\
+" },"\
+" \"PM25\": {"\
+" \"value\": \"%d\""\
+" }"\
+" }";
 
 static void get_device_status( alink_up_cmd_ptr up_cmd )
 {
-    sprintf( (char *) post_data_buffer, main_dev_params, virtual_device.power,
-        virtual_device.temp_value,
-        virtual_device.light_value,
-        virtual_device.time_delay,
-        virtual_device.work_mode );
+    sprintf( (char *) post_data_buffer, post_str_format, uartcmd.Switch,uartcmd.ErrorCode,\
+			uartcmd.ChildLock,uartcmd.CueTone, \
+			uartcmd.UILight,uartcmd.Hepa,uartcmd.FilterLife1,uartcmd.Countdown,\
+			uartcmd.WorkMode,uartcmd.PM25 );
     up_cmd->param = (const char *) post_data_buffer;
+    json_log("post data = %s",post_data_buffer);
 }
 
+
+
+#if 0
 static int execute_cmd( alink_down_cmd_ptr down_cmd )
 {
     int attrLen = 0, valueLen = 0, value = 0, i = 0;
@@ -81,13 +101,16 @@ static int execute_cmd( alink_down_cmd_ptr down_cmd )
 
     return 0;
 }
+#endif
+
 
 int cloud_get_device_json_data( alink_down_cmd_ptr down_cmd )
 {
     int ret = 0;
     json_log("function %s, memory %d \n", __FUNCTION__, MicoGetMemoryInfo()->free_memory);
     set_device_state( 1 );
-    /*do your job end! */
+    /*do your job end!  ��ѯָ�� */
+    json_log("APP refresh=========");
     return ret;
 }
 
@@ -97,7 +120,7 @@ int cloud_set_device_json_data( alink_down_cmd_ptr down_cmd )
     /*get cmd from server, do your job here! */
     int ret = 0;
     json_log("function %s, memory %d \n", __FUNCTION__, MicoGetMemoryInfo()->free_memory);
-    ret = execute_cmd( down_cmd );
+	ret = device_command_execute(down_cmd);
     /* do your job end! */
     set_device_state( 1 );
     return ret;

@@ -5,9 +5,17 @@
 #define alink_main_log(M, ...) custom_log("alink_main", M, ##__VA_ARGS__)
 
 static void *alink_sample_mutex;
-static char device_status_change = 1;
+ char device_status_change = 1;
 static int device_logged = 0;
 static void* post_sem = NULL;
+extern int cloud_connect_status;
+extern uint8_t wifi_status_return[12];
+
+//timer: get pm25 value after wifi connected every 'Get_PM25_Basetime' seconds
+static mico_timer_t *get_PM25_timer = NULL;
+#define GET_PM25_Basetime           3
+
+static uint8_t get_device[12] = {0xAA,0x0B,0xA5,0,0,0,0x00,0,0,0x03,0x00,0xff};
 
 int get_device_state( void )
 {
@@ -32,6 +40,12 @@ int set_device_state( int state )
     return state;
 }
 
+void _Get_PM25_timer (void* arg)
+{
+    MicoUartSend(UART_FOR_APP, get_device, 12);
+    alink_main_log("_Get_PM25_timer");
+}
+
 int alink_handler_systemstates_callback( void *dev_mac, void *sys_state )
 {
     char uuid[33] = { 0 };
@@ -50,10 +64,25 @@ int alink_handler_systemstates_callback( void *dev_mac, void *sys_state )
             alink_main_log("ALINK_STATUS_LOGGED, mac %s uuid %s\n", mac, uuid);
             device_logged = 1;
             set_device_state( 1 );
+            wifi_status_return[10] = cloud_connect_status = 3;
+            wifi_status_return[11] = (0x100-(sum(wifi_status_return)&0xff));
+            MicoUartSend(UART_FOR_APP, wifi_status_return, 12);
+/////主动查询
+            get_device[11] = (0x100-(sum(get_device)&0xff));
+            MicoUartSend(UART_FOR_APP, get_device, 12);
+           if(get_PM25_timer  == NULL){
+            //timer: get pm25 value after wifi connected every 3 seconds
+               get_PM25_timer = (mico_timer_t *)malloc(sizeof(mico_timer_t));
+            mico_init_timer (get_PM25_timer, GET_PM25_Basetime*1000, _Get_PM25_timer, NULL);
+            mico_start_timer (get_PM25_timer);
+           }
             break;
         case ALINK_STATUS_LINK_DOWN:
             alink_main_log("ALINK_STATUS_LINK_DOWN");
             device_logged = 0;
+            wifi_status_return[10] = cloud_connect_status = 2;
+            wifi_status_return[11] = (0x100-(sum(wifi_status_return)&0xff));
+            MicoUartSend(UART_FOR_APP, wifi_status_return, 12);
         default:
             break;
     }
@@ -91,8 +120,8 @@ static void alink_main( uint32_t arg )
     memset( main_dev, 0, sizeof(struct device_info) );
     alink_fill_deviceinfo( main_dev );
 
-    alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
-//    alink_set_loglevel(ALINK_LL_NONE);
+   // alink_set_loglevel( ALINK_LL_DEBUG | ALINK_LL_INFO | ALINK_LL_ERROR );
+    alink_set_loglevel(ALINK_LL_NONE);
 
     main_dev->sys_callback[ALINK_FUNC_SERVER_STATUS] = alink_handler_systemstates_callback;
 

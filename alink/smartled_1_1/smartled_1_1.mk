@@ -24,6 +24,7 @@
 
 NAME := App_Smartled
 
-$(NAME)_SOURCES := alink_main.c mico_main.c alink_device_raw.c alink_device_json.c
-
+$(NAME)_SOURCES := alink_main.c mico_main.c alink_device_raw.c alink_device_json.c \
+ 				   Uart_Receive.c  Get_Process.c\
+				   Post_Process.c 
 $(NAME)_COMPONENTS += lib_alink/alink_1_1 lib_alink/alink_common

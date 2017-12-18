@@ -35,9 +35,9 @@
 
 #define FIRMWARE_REVISION   "ALINK_1_1"
 #define MANUFACTURER        "MXCHIP Inc."
-#define SERIAL_NUMBER       "20140606"
+#define SERIAL_NUMBER       "0661.KJ01.AL01"
 #define PROTOCOL            "com.mxchip.basic"
-#define MICO_SN             "0000.0000.000C"
+#define MICO_SN             "0661.KJ01.AL01"
 
 #define MICO_WLAN_CONFIG_MODE_TRIGGER           (1) /**< Enter wlan config mode if no available wlan. */
 #define CONFIG_MODE_TRIGGER_EASYLINK_BTN        (1) /**< Enter wlan config mode by Easylink button. */
@@ -45,6 +45,8 @@
 /************************************************************************
  * Application thread stack size */
 #define MICO_DEFAULT_APPLICATION_STACK_SIZE         (1024 * 6)
+
+#define UartRecvBufferLen 1024
 
 /************************************************************************
  * Enable wlan connection, start easylink configuration if no wlan settings are existed */
