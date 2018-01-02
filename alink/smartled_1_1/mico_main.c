@@ -111,6 +111,7 @@ int application_start( void )
 
     app_log("product model: %s", alink_product_model);
 
+    app_log("alink_product_dev_version: %s", alink_product_dev_version);
 //    ssl_set_loggingcb(ssl_log);
 
     /* mico system initialize */

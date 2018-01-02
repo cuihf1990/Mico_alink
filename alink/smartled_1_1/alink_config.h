@@ -19,7 +19,7 @@
 #define alink_product_secret            "kRhmi1L5F73RHzxVTP9uUyoJky0AjaBJbaG5Ocac"
 #endif
 
-#define alink_product_dev_version     "1.1.7"
+#define alink_product_dev_version     "1.1.8"
 #define alink_product_dev_type        "AIRPURIFIER"
 #define alink_product_dev_category    "LIVING"
 #define alink_product_dev_manufacturer "DCA"

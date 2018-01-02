@@ -116,10 +116,11 @@ int device_command_execute(alink_down_cmd_ptr down_cmd)
 		  client_set_log("get the value = %s",valueStr);
 		  cmd.func = hiFuncStr[i].idx;
 		  cmd.value = atoi (valueStr);
+		  commandToDevice (cmd);
 		}
 	  }
    json_object_put (jsonObj);
-   return commandToDevice (cmd);
+   return 0;
 }
 
 
