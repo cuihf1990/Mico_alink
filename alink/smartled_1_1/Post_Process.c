@@ -34,6 +34,17 @@ void PraseUartData(uint8_t * buf)
 {
 }
 
+
+static uint8_t rssi_2_quility(int rssi)
+{
+    if (rssi >= -55)
+        return 100;
+    if (rssi <= -95)
+        return 0;
+    return (rssi+95)*5/2;
+}
+
+
 static uint8_t factory_test[13] = {0xAA,0x0C,0xA5,0,0,0,0,0,0,0x43,0x00,0x01,0xff};
 void DeviceNotify_ScanCompleteHandler(ScanResult *pApList, mico_Context_t * const inContext)
 {
@@ -45,7 +56,9 @@ void DeviceNotify_ScanCompleteHandler(ScanResult *pApList, mico_Context_t * cons
   {
     if(strcmp(pApList->ApList[i].ssid,"MA1705 App Test") == 0)
     {
-      if(pApList->ApList[i].rssi > 50)
+    client_log("==============pApList->ApList[i].rssi = %d",pApList->ApList[i].rssi);
+
+      if(rssi_2_quility(pApList->ApList[i].rssi) > 50)
           factory_test[11] = 0x02;
       break;
     }
@@ -63,6 +76,7 @@ void TestMode()
     require( in_context, exit );
 
     factory_test[10] = 0x01;
+    factory_test[11] = 0x00;
     factory_test[12] = (0x100-(sum(factory_test,factory_test[1])&0xff));
     MicoUartSend(UART_FOR_APP, factory_test, 13);   ////����ȷ��
 
